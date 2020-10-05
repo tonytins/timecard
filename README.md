@@ -6,26 +6,32 @@ This is a simple command line application meant to keep track of your work time.
 
 ```
 USAGE:
-       tc.exe [FLAGS] [OPTIONS]
-   
-   FLAGS:
-       -b, --break-time    
-           --check-in      
-           --check-out     
-       -h, --help          Prints help information
-       -V, --version       Prints version information
-   
-   OPTIONS:
-       -f, --file <file>    [default: timecard.csv]
+    tc.exe [FLAGS] [OPTIONS]
+
+FLAGS:
+    -b, --break      
+    -h, --help       Prints help information
+    -i, --in         
+    -o, --out        
+    -V, --version    Prints version information
+
+OPTIONS:
+    -f, --file <file>          [default: timecard.csv]
+    -p, --project <project>    
 ```
 
 ## Example
 
 ```csv
-Checked In,2020-W41-5,12:06:24
-Break,2020-W41-5,12:06:25
-Checked Out,2020-W41-5,12:06:25
+Checked In,2020-W41-5,17:31
+Break,2020-W41-5,17:31
+Checked Out,2020-W41-5,17:31
 ```
+
+## To Do
+
+- [ ] Calculate hours
+- [ ] Make front-end
 
 ## Requirements
 

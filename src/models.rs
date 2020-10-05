@@ -1,14 +1,16 @@
 use clap::{Clap};
 
-#[derive(Clap, Debug)]
+#[derive(Clap, Debug, Clone)]
 #[clap(author, about, version)]
-pub struct Options {
+pub struct Opts {
     #[clap(short, long, default_value = "timecard.csv")]
     pub file: String,
-    #[clap(long)]
+    #[clap(name = "in", short, long)]
     pub check_in: bool,
-    #[clap(long)]
+    #[clap(name = "out", short, long)]
     pub check_out: bool,
+    #[clap(name = "break", short, long)]
+    pub break_time: bool,
     #[clap(short, long)]
-    pub break_time: bool
+    pub project: Option<String>
 }

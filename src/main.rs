@@ -10,11 +10,7 @@ fn write_csv<S: Into<String>>(status: S, year: i32, week: S, day: u32, time: S) 
     let opts: Options = Options::parse();
     // Create a new time card, if it doesn't exist
     if !Path::new(&opts.file).exists() {
-        let mut file = File::create(&opts.file)
-            .expect("Error creating file");
-        if let Err(err) = writeln!(file, "Status,Date,Time") {
-            eprintln!("Couldn't write to file: {}", err);
-        }
+        File::create(&opts.file).expect("Error creating file");
     }
 
     // Append status to time card file
@@ -24,10 +20,10 @@ fn write_csv<S: Into<String>>(status: S, year: i32, week: S, day: u32, time: S) 
         .open(&opts.file)
         .unwrap();
 
-    let time_sheet = format!("{},{}-{}-{},{}", status.into(), year, week.into(),
-                             day, time.into());
+    let record = format!("{},{}-{}-{},{}", status.into(), year, week.into(),
+                         day, time.into());
 
-    if let Err(err) = writeln!(csv, "{}", time_sheet) {
+    if let Err(err) = writeln!(csv, "{}", record) {
         eprintln!("Couldn't write to file: {}", err);
     }
 }

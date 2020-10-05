@@ -22,8 +22,9 @@ USAGE:
 ## Example
 
 ```csv
-Status,Date,Time
-Checked In,2020-W41-5,11:41:13
+Checked In,2020-W41-5,12:06:24
+Break,2020-W41-5,12:06:25
+Checked Out,2020-W41-5,12:06:25
 ```
 
 ## Requirements

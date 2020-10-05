@@ -23,7 +23,7 @@ USAGE:
 
 ```csv
 Status,Date,Time
-Checked In,10/5/2020,10:56:04.778382400
+Checked In,2020-W41-5,11:41:13
 ```
 
 ## Requirements

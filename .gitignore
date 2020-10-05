@@ -1,6 +1,5 @@
-## TimeSheet ##
-*.dir
-*.pag
+## Time Card ##
+timecard.csv
 
 # Created by https://www.gitignore.io/api/rust,linux,macos,dotenv,backup,windows,jetbrains+iml,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=rust,linux,macos,dotenv,backup,windows,jetbrains+iml,visualstudiocode

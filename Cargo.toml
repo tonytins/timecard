@@ -1,6 +1,6 @@
 [package]
-name = "tc"
-version = "0.1.0-proto.1"
+name = "ts"
+version = "0.1.0"
 authors = ["Anthony Leland <noreply@tonytins.xyz>"]
 edition = "2018"
 
@@ -8,4 +8,5 @@ edition = "2018"
 anyhow = "1.0"
 chrono = "0.4"
 isocal = "0.1"
+directories = "3.0"
 clap = { version = "3.0.0-beta.2", features = [ "wrap_help" ] }

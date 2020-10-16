@@ -1,12 +1,12 @@
-# Time Card
+# Time Sheet
 
-This is a simple command line application meant to keep track of your work time. Everything is saved to a simple CSV file. It's just a prototype right now.
+This is a simple command line application meant to keep track of your work time. Everything is saved to a simple CSV file in the documents path under ``/timesheet``. It's just a prototype right now.
 
 ## Usage
 
 ```
 USAGE:
-    tc.exe [FLAGS] [OPTIONS]
+    ts [FLAGS] [OPTIONS]
 
 FLAGS:
     -b, --break      
@@ -16,8 +16,9 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-    -f, --file <file>          [default: timecard.csv]
-    -p, --project <project>    
+    -f, --file <file>    [default: timesheet.csv]
+    -p, --path <path>    [default: timesheet]
+    -t, --task <task> 
 ```
 
 ## Example
@@ -31,6 +32,7 @@ Checked Out,2020-W41-5,17:31
 ## To Do
 
 - [ ] Calculate hours
+- [ ] Dedicated folder
 - [ ] Make front-end
 
 ## Requirements

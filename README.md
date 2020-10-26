@@ -41,12 +41,6 @@ Checked Out,2020-W41-5,17:31
 
 - Rust 2018
 
-## Authors
-
-- **Anthony Leland** - _Initial work_ - [tonytins](https://github.com/tonytins)
-
-See also the list of [contributors](https://github.com/tonytins/citylimits/contributors) who participated in this project.
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details

@@ -1,7 +1,7 @@
 use clap::Clap;
 use isocal::IsoDate;
 use chrono::{Local, Datelike};
-use ts::models::Opts;
+use ts::options::Opts;
 use std::{fs, fs::{OpenOptions, File}};
 use std::io::Write;
 use std::path::Path;
@@ -36,11 +36,7 @@ fn write_csv<S: Into<String>>(status: S, year: i32, week: S, day: u32, time: S) 
                 .open(&ts_file)
                 .unwrap();
 
-            let header = if !task.is_empty() {
-                format!("Status,Date,Time,Task")
-            } else {
-                format!("Status,Date,Time")
-            };
+            let header = format!("Date,Status,Time,Task");
 
             if let Err(err) = writeln!(init, "{}", header) {
                 eprintln!("Couldn't write to file: {}", err);
@@ -56,13 +52,8 @@ fn write_csv<S: Into<String>>(status: S, year: i32, week: S, day: u32, time: S) 
         .unwrap();
 
 
-    let record = if task.is_empty() {
-        format!("{},{}-{}-{},{}", status.into(), year, week.into(),
-                day, time.into())
-    } else {
-        format!("{},{}-{}-{},{},{}", status.into(), year, week.into(),
-                day, time.into(), task)
-    };
+    let record = format!("{},{}-{}-{},{},{}", year, status.into(),
+                         week.into(), day, time.into(), task);
 
     if let Err(err) = writeln!(csv, "{}", record) {
         eprintln!("Couldn't write to file: {}", err);

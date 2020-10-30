@@ -14,5 +14,5 @@ pub struct Opts {
     #[clap(name = "break", short, long)]
     pub break_time: bool,
     #[clap(short, long)]
-    pub task: Option<String>
+    pub task: String
 }

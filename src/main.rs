@@ -1,24 +1,36 @@
 use clap::Clap;
 use isocal::IsoDate;
 use chrono::{Local, Datelike};
-use ts::options::Opts;
+use ts::options::{Opts, SubCommands};
 use std::{fs, fs::{OpenOptions, File}};
 use std::io::Write;
 use std::path::Path;
 use directories::UserDirs;
 
-fn write_csv<S: Into<String>>(status: S, year: i32, week: S, day: u32, time: S) {
+fn csv_content(status: String, year: i32, month: u32, day: u32, week: String,
+               time: String, task: String) -> String {
 
+    let date = format!("{}/{}/{}", month, day, year);
+    format!("{},{},{},{},{}", status, date, week, time, task)
+}
+
+fn write_csv<S: Into<String>>(status: S, task: S) {
     let opts: Opts = Opts::parse();
     let mut ts_file = String::new();
-    let task = opts.task.unwrap_or_default();
+
+    let dt_local = Local::now();
+    let iso_week = dt_local.iso_week();
+    let time_format = "%H:%M";
+
+    let header = format!("Status,Date,Week,Time,Task");
 
     if let Some(user_dirs) = UserDirs::new() {
         let docs_dir = user_dirs.document_dir()
             .expect("There was a problem detecting documents path.");
 
-        ts_file = format!("{}\\{}\\{}", docs_dir.display(), &opts.path, &opts.file);
-        let ts_path = format!("{}\\{}", docs_dir.display(), &opts.path);
+        let file_name = format!("{}-{}.csv", dt_local.year(), iso_week.week_fancy());
+        ts_file = format!("{}\\{}\\{}", docs_dir.display(), &opts.path, file_name);
+        let ts_path = format!("{}\\{}", docs_dir.display(), file_name);
 
         if !Path::new(&ts_path).exists() {
             fs::create_dir(&ts_path)
@@ -36,8 +48,6 @@ fn write_csv<S: Into<String>>(status: S, year: i32, week: S, day: u32, time: S) 
                 .open(&ts_file)
                 .unwrap();
 
-            let header = format!("Date,Status,Time,Task");
-
             if let Err(err) = writeln!(init, "{}", header) {
                 eprintln!("Couldn't write to file: {}", err);
             }
@@ -51,9 +61,10 @@ fn write_csv<S: Into<String>>(status: S, year: i32, week: S, day: u32, time: S) 
         .open(&ts_file)
         .unwrap();
 
-
-    let record = format!("{},{}-{}-{},{},{}", year, status.into(),
-                         week.into(), day, time.into(), task);
+    let record = csv_content(status.into(), dt_local.year(), dt_local.month(),
+                             dt_local.day(),iso_week.week_fancy(),
+                             dt_local.time().format(time_format).to_string(),
+                             task.into());
 
     if let Err(err) = writeln!(csv, "{}", record) {
         eprintln!("Couldn't write to file: {}", err);
@@ -62,22 +73,28 @@ fn write_csv<S: Into<String>>(status: S, year: i32, week: S, day: u32, time: S) 
 
 fn main() {
     let opts: Opts = Opts::parse();
-    let dt_local = Local::now();
-    let iso_week = dt_local.iso_week();
 
-    if opts.check_in {
-        write_csv("Checked In", dt_local.year(), &iso_week.week_fancy(),
-                  dt_local.day(), &dt_local.time().format("%H:%M").to_string());
-    }
+    match opts.subcmds {
+        SubCommands::In(check_in) => {
+            write_csv("In", check_in.task.as_str());
+        }
+        SubCommands::Out(_) => {
+            write_csv("Out", "");
+        }
+    };
+}
 
-    if opts.check_out {
-        write_csv("Checked Out",dt_local.year(), &iso_week.week_fancy(),
-                  dt_local.day(), &dt_local.time().format("%H:%M").to_string());
-    }
+#[cfg(test)]
+mod tests {
+    use crate::csv_content;
 
-    if opts.break_time {
-        write_csv("Break",dt_local.year(), &iso_week.week_fancy(),
-                  dt_local.day(), &dt_local.time().format("%H:%M").to_string());
+    #[test]
+    fn content_test() {
+        let content =  csv_content("In".to_string(), 2020, 10,30,
+                                   "W44".to_string(), "20:22".to_string(),
+                                   "Is equal test".to_string());
 
+        assert_eq!("In,10/30/2020,W44,20:22,Is equal test", content);
+        assert_ne!("Out,03/25/2020,W13,10:08,Not equal test", content)
     }
 }

@@ -21,18 +21,18 @@ OPTIONS:
     -t, --task <task> 
 ```
 
-## Example
+### Example
 
 ```csv
-Checked In,2020-W41-5,17:31
-Break,2020-W41-5,17:31
-Checked Out,2020-W41-5,17:31
+Status,Date,Week,Time,Task
+Checked In,10/30/2020,W44,19:25,Test
+Checked Out,10/30/2020,W44,19:25,
 ```
 
 ## To Do
 
 - [ ] Calculate hours
-- [ ] Dedicated folder
+- [x] Dedicated folder
 - [ ] Make front-end
 
 ## Requirements

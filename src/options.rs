@@ -3,8 +3,6 @@ use clap::{Clap};
 #[derive(Clap, Debug, Clone)]
 #[clap(author, about, version)]
 pub struct Opts {
-    #[clap(short, long, default_value = "timesheet")]
-    pub path: String,
     #[clap(subcommand)]
     pub subcmds: SubCommands
 }

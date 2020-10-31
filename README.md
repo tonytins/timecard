@@ -6,34 +6,34 @@ This is a simple command line application meant to keep track of your work time.
 
 ```
 USAGE:
-    ts [FLAGS] [OPTIONS]
+    ts [OPTIONS] <SUBCOMMAND>
 
 FLAGS:
-    -b, --break      
     -h, --help       Prints help information
-    -i, --in         
-    -o, --out        
     -V, --version    Prints version information
 
 OPTIONS:
-    -f, --file <file>    [default: timesheet.csv]
     -p, --path <path>    [default: timesheet]
-    -t, --task <task> 
+
+SUBCOMMANDS:
+    help    Prints this message or the help of the given subcommand(s)
+    in      Records the time you started your work.
+    out     Records the time you finished your work.
 ```
 
 ### Example
 
 ```csv
 Status,Date,Week,Time,Task
-Checked In,10/30/2020,W44,19:25,Test
-Checked Out,10/30/2020,W44,19:25,
+In,10/30/2020,W44,10:08,Escort Russel
+Out,10/30/2020,W44,11:08,
 ```
 
 ## To Do
 
 - [ ] Calculate hours
 - [x] Dedicated folder
-- [ ] Make front-end
+- [ ] Make front-end (separate repo)
 
 ## Requirements
 

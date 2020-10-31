@@ -91,10 +91,10 @@ mod tests {
     #[test]
     fn content_test() {
         let content =  csv_content("In".to_string(), 2020, 10,30,
-                                   "W44".to_string(), "20:22".to_string(),
-                                   "Is equal test".to_string());
+                                   "W44".to_string(), "10:08".to_string(),
+                                   "Escort Russel".to_string());
 
-        assert_eq!("In,10/30/2020,W44,20:22,Is equal test", content);
-        assert_ne!("Out,03/25/2020,W13,10:08,Not equal test", content)
+        assert_eq!("In,10/30/2020,W44,10:08,Escort Russel", content);
+        assert_ne!("Out,10/30/2020,W44,11:08,", content)
     }
 }

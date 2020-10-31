@@ -41,6 +41,16 @@ Out,10/30/2020,W44,11:08,
 
 - Rust 2018
 
+### Configuration
+
+Time Sheet doesn't create the config file for you, but it looks for one in the following locations:
+
+- Linux: ``/home/[user]/.config/timesheet/config.toml``
+- Windows: ``C:\Users\[user]\AppData\Roaming\Sixam\TimeSheet\config\config.toml``
+- Mac: ``/Users/[user]/Library/Application Support/com.Sixam.TimeSheet/config.toml``
+
+From the ``config.toml`` you can change the save ``folder`` or ``directory``. The path is where the folder would be saved too. The folder contains the time sheet files. By default, it saves to your documents directory under the ``/timesheet`` folder.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details

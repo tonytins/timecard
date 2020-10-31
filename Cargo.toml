@@ -1,6 +1,6 @@
 [package]
 name = "ts"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Anthony Foxclaw <noreply@tonytins.xyz>"]
 edition = "2018"
 
@@ -9,4 +9,12 @@ anyhow = "1.0"
 chrono = "0.4"
 isocal = "0.1"
 directories = "3.0"
-clap = { version = "3.0.0-beta.2", features = [ "wrap_help" ] }
+toml = "0.5"
+
+[dependencies.clap]
+version = "3.0.0-beta.2"
+features = [ "wrap_help" ]
+
+[dependencies.serde]
+version = "1.0"
+features = ["derive"]

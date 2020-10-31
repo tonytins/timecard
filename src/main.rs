@@ -1,11 +1,10 @@
 use clap::Clap;
 use isocal::IsoDate;
 use chrono::{Local, Datelike};
-use ts::options::{Opts, SubCommands};
+use ts::{config::get_config, options::{Opts, SubCommands}};
 use std::{fs, fs::{OpenOptions, File}};
 use std::io::Write;
 use std::path::Path;
-use directories::UserDirs;
 
 fn csv_content(status: String, year: i32, month: u32, day: u32, week: String,
                time: String, task: String) -> String {
@@ -15,8 +14,8 @@ fn csv_content(status: String, year: i32, month: u32, day: u32, week: String,
 }
 
 fn write_csv<S: Into<String>>(status: S, task: S) {
-    let opts: Opts = Opts::parse();
-    let mut ts_file = String::new();
+
+    let cfg = get_config();
 
     let dt_local = Local::now();
     let iso_week = dt_local.iso_week();
@@ -24,35 +23,32 @@ fn write_csv<S: Into<String>>(status: S, task: S) {
 
     let header = format!("Status,Date,Week,Time,Task");
 
-    if let Some(user_dirs) = UserDirs::new() {
-        let docs_dir = user_dirs.document_dir()
-            .expect("There was a problem detecting documents path.");
+    let cfg_path = cfg.directory;
+    let cfg_folder = cfg.folder;
+    let file_name = format!("{}-{}.csv", dt_local.year(), iso_week.week_fancy());
+    let ts_file = format!("{}\\{}\\{}", cfg_path, cfg_folder, file_name);
+    let ts_path = format!("{}\\{}", cfg_path, cfg_folder);
 
-        let file_name = format!("{}-{}.csv", dt_local.year(), iso_week.week_fancy());
-        ts_file = format!("{}\\{}\\{}", docs_dir.display(), &opts.path, file_name);
-        let ts_path = format!("{}\\{}", docs_dir.display(), file_name);
+    if !Path::new(&ts_path).exists() {
+        fs::create_dir(&ts_path)
+            .expect("There was a problem creating time sheet directory.");
+    }
 
-        if !Path::new(&ts_path).exists() {
-            fs::create_dir(&ts_path)
-                .expect("There was a problem creating time sheet directory.");
+    // Create a new time card file, if it doesn't exist
+    if !Path::new(&ts_file).exists() {
+        File::create(&ts_file).expect("Error creating file");
+
+        // Append status to time card file
+        let mut init = OpenOptions::new()
+            .write(true)
+            .append(true)
+            .open(&ts_file)
+            .unwrap();
+
+        if let Err(err) = writeln!(init, "{}", header) {
+            eprintln!("Couldn't write to file: {}", err);
         }
-
-        // Create a new time card file, if it doesn't exist
-        if !Path::new(&ts_file).exists() {
-            File::create(&ts_file).expect("Error creating file");
-
-            // Append status to time card file
-            let mut init = OpenOptions::new()
-                .write(true)
-                .append(true)
-                .open(&ts_file)
-                .unwrap();
-
-            if let Err(err) = writeln!(init, "{}", header) {
-                eprintln!("Couldn't write to file: {}", err);
-            }
-        }
-    };
+    }
 
     // Append status to time card file
     let mut csv = OpenOptions::new()
@@ -95,6 +91,6 @@ mod tests {
                                    "Escort Russel".to_string());
 
         assert_eq!("In,10/30/2020,W44,10:08,Escort Russel", content);
-        assert_ne!("Out,10/30/2020,W44,11:08,", content)
+        assert_ne!("Out,10/30/2020,W44,11:08,", content);
     }
 }
